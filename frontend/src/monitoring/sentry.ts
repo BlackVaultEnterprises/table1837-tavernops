@@ -1,5 +1,12 @@
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
+import React from 'react';
+import { 
+  useLocation, 
+  useNavigationType, 
+  createRoutesFromChildren, 
+  matchRoutes 
+} from 'react-router-dom';
 
 // Initialize Sentry for production monitoring
 export const initSentry = () => {
@@ -41,7 +48,7 @@ export const initSentry = () => {
       beforeSend(event, hint) {
         // Add user role context
         if (event.user) {
-          event.user.role = getCurrentUserRole();
+          event.user.role = 'guest'; // Will be updated when user logs in
         }
         
         // Filter out non-critical errors in production
@@ -69,30 +76,7 @@ class RestaurantErrorIntegration {
       return event;
     });
     
-    // Track performance of critical operations
-    this.monitorCriticalOperations();
-  }
-  
-  monitorCriticalOperations() {
-    // Monitor search performance
-    const originalSearch = window.searchCocktails;
-    window.searchCocktails = async (...args) => {
-      const transaction = Sentry.startTransaction({
-        name: 'cocktail-search',
-        op: 'search',
-      });
-      
-      try {
-        const result = await originalSearch(...args);
-        transaction.setStatus('ok');
-        return result;
-      } catch (error) {
-        transaction.setStatus('internal_error');
-        throw error;
-      } finally {
-        transaction.finish();
-      }
-    };
+    // Performance monitoring will be added per component as needed
   }
 }
 
