@@ -1,28 +1,12 @@
-name = "table1837tavern-api"
-main = "infrastructure/cloudflare-setup.js"
-compatibility_date = "2023-12-01"
+name = "table1837-tavernops"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[assets]
+directory = "./frontend/dist"
 
 [env.production]
-routes = [
-  { pattern = "api.table1837tavern.xyz/*", zone_name = "table1837tavern.xyz" }
-]
+vars = { ENVIRONMENT = "production" }
 
 [env.staging]
-routes = [
-  { pattern = "staging-api.table1837tavern.xyz/*", zone_name = "table1837tavern.xyz" }
-]
-
-[[durable_objects.bindings]]
-name = "EIGHTY_SIX_LIST"
-class_name = "EightySixList"
-
-[[r2_buckets]]
-binding = "TABLE1837_ASSETS"
-bucket_name = "table1837tavern-assets"
-
-[[kv_namespaces]]
-binding = "CACHE"
-id = "your-kv-namespace-id"
-
-[vars]
-NEON_DATABASE_URL = "postgresql://neondb_owner:npg_yUzrV75hQIfM@ep-shy-math-aeg5mcxo-pooler.c-2.us-east-2.aws.neon.tech/neondb?sslmode=require"
+vars = { ENVIRONMENT = "staging" }
