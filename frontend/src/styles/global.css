@@ -2,6 +2,26 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Balthazar&family=Cinzel:wght@400;500&family=Roboto:wght@300;400;500&display=swap');
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
 .app {
   min-height: 100vh;
   display: flex;
@@ -107,6 +127,71 @@ p {
   opacity: 0.7;
 }
 
+/* Auth Page */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-black);
+}
+
+/* Staff Dashboard */
+.staff-dashboard {
+  min-height: 100vh;
+  padding: 2rem;
+  background: var(--color-black);
+}
+
+.dashboard-header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.dashboard-header h1 {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  color: var(--color-gold);
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Content Section */
+.content-section {
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.content-section h2 {
+  font-family: var(--font-accent);
+  font-size: 2.5rem;
+  color: var(--color-gold);
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.content-section p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Main Container */
+.main-container {
+  flex: 1;
+  position: relative;
+  z-index: var(--z-content);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .hero-title {
@@ -123,5 +208,9 @@ p {
   
   .main-content {
     padding: 2rem 1rem;
+  }
+  
+  .dashboard-grid {
+    grid-template-columns: 1fr;
   }
 }
