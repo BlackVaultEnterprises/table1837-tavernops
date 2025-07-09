@@ -1,0 +1,7 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" rx="20" fill="#1a0f1a"/>
+  <text x="100" y="85" font-family="Georgia, serif" font-size="48" font-weight="bold" text-anchor="middle" fill="#d4af37">1837</text>
+  <text x="100" y="120" font-family="Georgia, serif" font-size="24" text-anchor="middle" fill="#ffffff">TAVERN</text>
+  <line x1="40" y1="140" x2="160" y2="140" stroke="#d4af37" stroke-width="2"/>
+  <text x="100" y="165" font-family="Georgia, serif" font-size="14" text-anchor="middle" fill="#ffffff" opacity="0.8">EST. GLEN ROCK</text>
+</svg>
