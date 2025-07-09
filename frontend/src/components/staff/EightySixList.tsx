@@ -4,10 +4,12 @@ import { useWebSocket } from '../../hooks/useWebSocket';
 import { GlassmorphicCard } from '../ui/GlassmorphicCard';
 import { formatDistanceToNow } from 'date-fns';
 
+type ItemCategory = 'food' | 'cocktail' | 'wine' | 'beer' | 'spirit';
+
 interface EightySixItem {
   id: string;
   name: string;
-  category: 'food' | 'cocktail' | 'wine' | 'beer' | 'spirit';
+  category: ItemCategory;
   addedBy: string;
   addedAt: Date;
   reason?: string;
@@ -19,10 +21,24 @@ interface EightySixListProps {
   userName: string;
 }
 
+interface NewItemForm {
+  name: string;
+  category: ItemCategory;
+  reason: string;
+}
+
+/**
+ * Real-time 86 list component with WebSocket updates
+ * Allows staff to track unavailable items
+ */
 export const EightySixList: React.FC<EightySixListProps> = ({ userRole, userName }) => {
   const [items, setItems] = useState<EightySixItem[]>([]);
   const [isAddingItem, setIsAddingItem] = useState(false);
-  const [newItem, setNewItem] = useState({ name: '', category: 'food', reason: '' });
+  const [newItem, setNewItem] = useState<NewItemForm>({ 
+    name: '', 
+    category: 'food', 
+    reason: '' 
+  });
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
 
   const { sendMessage, lastMessage } = useWebSocket('ws://localhost:8080/ws/86-list');
@@ -30,39 +46,43 @@ export const EightySixList: React.FC<EightySixListProps> = ({ userRole, userName
   // Handle incoming WebSocket messages
   useEffect(() => {
     if (lastMessage) {
-      const data = JSON.parse(lastMessage.data);
-      
-      switch (data.type) {
-        case 'ITEM_ADDED':
-          setItems(prev => [...prev, data.item]);
-          showNotification(`${data.item.name} has been 86'd by ${data.item.addedBy}`);
-          break;
+      try {
+        const data = JSON.parse(lastMessage.data);
         
-        case 'ITEM_REMOVED':
-          setItems(prev => prev.filter(item => item.id !== data.itemId));
-          break;
+        switch (data.type) {
+          case 'ITEM_ADDED':
+            setItems(prev => [...prev, data.item]);
+            showNotification(`${data.item.name} has been 86'd by ${data.item.addedBy}`);
+            break;
+          
+          case 'ITEM_REMOVED':
+            setItems(prev => prev.filter(item => item.id !== data.itemId));
+            break;
+          
+          case 'FULL_SYNC':
+            setItems(data.items);
+            break;
+        }
         
-        case 'FULL_SYNC':
-          setItems(data.items);
-          break;
+        setLastUpdate(new Date());
+      } catch (error) {
+        console.error('Failed to parse WebSocket message:', error);
       }
-      
-      setLastUpdate(new Date());
     }
   }, [lastMessage]);
 
   const canEdit = ['Manager', 'Owner', 'Bartender', 'Kitchen'].includes(userRole);
 
   const add86Item = useCallback(() => {
-    if (!newItem.name) return;
+    if (!newItem.name.trim()) return;
 
     const item: EightySixItem = {
       id: `86-${Date.now()}`,
       name: newItem.name,
-      category: newItem.category as any,
+      category: newItem.category,
       addedBy: userName,
       addedAt: new Date(),
-      reason: newItem.reason,
+      reason: newItem.reason || undefined,
     };
 
     sendMessage(JSON.stringify({
@@ -92,7 +112,7 @@ export const EightySixList: React.FC<EightySixListProps> = ({ userRole, userName
     }
   };
 
-  const categoryColors = {
+  const categoryColors: Record<ItemCategory, string> = {
     food: '#e74c3c',
     cocktail: '#3498db',
     wine: '#9b59b6',
@@ -138,7 +158,10 @@ export const EightySixList: React.FC<EightySixListProps> = ({ userRole, userName
             />
             <select
               value={newItem.category}
-              onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
+              onChange={(e) => setNewItem({ 
+                ...newItem, 
+                category: e.target.value as ItemCategory 
+              })}
             >
               <option value="food">Food</option>
               <option value="cocktail">Cocktail</option>

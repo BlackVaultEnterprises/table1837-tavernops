@@ -4,6 +4,7 @@ import Navigation from './components/layout/Navigation';
 import Hero from './components/layout/Hero';
 import ParallaxBackground from './components/layout/ParallaxBackground';
 import TabContent from './components/layout/TabContent';
+import ErrorBoundary from './components/ErrorBoundary';
 import { useScrollPosition } from './hooks/useScrollPosition';
 import './styles/design-tokens.css';
 import './styles/glassmorphic.css';
@@ -15,9 +16,14 @@ interface Tab {
   component: React.ComponentType;
 }
 
+/**
+ * Main application component for Table 1837 Tavern
+ * Implements glassmorphic design with parallax effects
+ */
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [isLoading, setIsLoading] = useState(true);
+  const [fontLoadError, setFontLoadError] = useState(false);
   const scrollPosition = useScrollPosition();
 
   const tabs: Tab[] = [
@@ -31,14 +37,24 @@ const App: React.FC = () => {
   ];
 
   useEffect(() => {
-    // Preload fonts and critical assets
-    Promise.all([
-      document.fonts.load('400 1em Balthazar'),
-      document.fonts.load('400 1em Roboto'),
-      document.fonts.load('400 1em Cinzel'),
-    ]).then(() => {
-      setIsLoading(false);
-    });
+    // Preload fonts and critical assets with proper error handling
+    const loadFonts = async () => {
+      try {
+        await Promise.all([
+          document.fonts.load('400 1em Balthazar'),
+          document.fonts.load('400 1em Roboto'),
+          document.fonts.load('400 1em Cinzel'),
+        ]);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Failed to load fonts:', error);
+        setFontLoadError(true);
+        // Continue loading even if fonts fail
+        setIsLoading(false);
+      }
+    };
+
+    loadFonts();
   }, []);
 
   if (isLoading) {
@@ -52,28 +68,36 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="app">
-      <ParallaxBackground scrollPosition={scrollPosition} />
-      
-      <Navigation 
-        tabs={tabs}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-        scrollPosition={scrollPosition}
-      />
-      
-      <Hero scrollPosition={scrollPosition} />
-      
-      <main className="main-content">
-        <AnimatePresence mode="wait">
-          <TabContent
-            key={activeTab}
-            activeTab={activeTab}
-            tabs={tabs}
-          />
-        </AnimatePresence>
-      </main>
-    </div>
+    <ErrorBoundary>
+      <div className="app">
+        <ParallaxBackground scrollPosition={scrollPosition} />
+        
+        <Navigation 
+          tabs={tabs}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          scrollPosition={scrollPosition}
+        />
+        
+        <Hero scrollPosition={scrollPosition} />
+        
+        <main className="main-content">
+          <AnimatePresence mode="wait">
+            <TabContent
+              key={activeTab}
+              activeTab={activeTab}
+              tabs={tabs}
+            />
+          </AnimatePresence>
+        </main>
+        
+        {fontLoadError && (
+          <div className="font-load-warning" style={{ display: 'none' }}>
+            {/* Hidden warning for monitoring */}
+          </div>
+        )}
+      </div>
+    </ErrorBoundary>
   );
 };
 

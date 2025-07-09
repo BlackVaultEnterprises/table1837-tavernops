@@ -1,6 +1,7 @@
 /* Global Styles - Table 1837 Glen Rock */
 
 @import url('https://fonts.googleapis.com/css2?family=Balthazar&family=Cinzel:wght@400;500&family=Roboto:wght@300;400;500&display=swap');
+@import './hero.css';
 
 * {
   margin: 0;
