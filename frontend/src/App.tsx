@@ -5,7 +5,9 @@ import Hero from './components/layout/Hero';
 import ParallaxBackground from './components/layout/ParallaxBackground';
 import TabContent from './components/layout/TabContent';
 import ErrorBoundary from './components/ErrorBoundary';
+import { AuthWrapper } from './components/auth/AuthWrapper';
 import { useScrollPosition } from './hooks/useScrollPosition';
+import { useUser } from '@clerk/clerk-react';
 import './styles/design-tokens.css';
 import './styles/glassmorphic.css';
 import './styles/global.css';
@@ -25,6 +27,10 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [fontLoadError, setFontLoadError] = useState(false);
   const scrollPosition = useScrollPosition();
+  const { user } = useUser();
+  
+  // Determine if user needs authentication for certain features
+  const requiresAuth = ['reservations', 'staff'].includes(activeTab);
 
   const tabs: Tab[] = [
     { id: 'home', label: 'Home', component: () => <div>Home Content</div> },

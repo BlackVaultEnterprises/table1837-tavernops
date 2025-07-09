@@ -1,0 +1,133 @@
+/* Authentication Styles */
+
+.auth-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-black);
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/images/restaurant-hero.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px) brightness(0.3);
+  z-index: 0;
+}
+
+.auth-container {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+  padding: var(--space-xl);
+}
+
+.auth-title {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  color: var(--color-white);
+  margin-bottom: var(--space-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.auth-subtitle {
+  font-family: var(--font-accent);
+  font-size: 1.125rem;
+  color: var(--color-gold);
+  margin-bottom: var(--space-xl);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.auth-box {
+  background: var(--color-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 1rem;
+  padding: var(--space-xl);
+}
+
+/* Clerk Customization */
+.auth-clerk-root {
+  width: 100%;
+}
+
+.auth-clerk-card {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.auth-clerk-title {
+  display: none;
+}
+
+.auth-input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: var(--color-white) !important;
+  font-family: var(--font-body) !important;
+}
+
+.auth-input:focus {
+  border-color: var(--color-gold) !important;
+  outline: none !important;
+}
+
+/* User Menu */
+.user-menu {
+  position: fixed;
+  top: var(--space-md);
+  right: var(--space-md);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: var(--color-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 2rem;
+  padding: var(--space-xs) var(--space-md);
+}
+
+.user-info {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.2;
+}
+
+.user-role {
+  font-size: 0.75rem;
+  color: var(--color-gold);
+  opacity: 0.8;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--color-gold);
+}
+
+.app-authenticated {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
