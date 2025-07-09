@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useWebSocket } from '../../hooks/useWebSocket';
+import { usePusher } from '../../hooks/usePusher';
 import { GlassmorphicCard } from '../ui/GlassmorphicCard';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -41,7 +41,10 @@ export const EightySixList: React.FC<EightySixListProps> = ({ userRole, userName
   });
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
 
-  const { sendMessage, lastMessage } = useWebSocket('ws://localhost:8080/ws/86-list');
+  const { lastMessage, isConnected } = usePusher({
+    channelName: '86-list',
+    events: ['item-added', 'item-removed', 'list-updated'],
+  });
 
   // Handle incoming WebSocket messages
   useEffect(() => {

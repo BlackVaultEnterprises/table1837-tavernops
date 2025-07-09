@@ -8,6 +8,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { AuthWrapper } from './components/auth/AuthWrapper';
 import { useScrollPosition } from './hooks/useScrollPosition';
 import { useUser } from '@clerk/clerk-react';
+import { pusherService } from './services/pusher';
 import './styles/design-tokens.css';
 import './styles/glassmorphic.css';
 import './styles/global.css';
@@ -43,6 +44,9 @@ const App: React.FC = () => {
   ];
 
   useEffect(() => {
+    // Initialize Pusher service
+    pusherService.initialize();
+    
     // Preload fonts and critical assets with proper error handling
     const loadFonts = async () => {
       try {
