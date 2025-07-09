@@ -1,0 +1,43 @@
+/* Table 1837 Design System Tokens */
+
+:root {
+  /* Brand Colors */
+  --color-black: #000000;
+  --color-gold: #d1a054;
+  --color-white: #ffffff;
+  --color-glass: rgba(255, 255, 255, 0.05);
+  --color-glass-border: rgba(255, 255, 255, 0.1);
+  
+  /* Typography */
+  --font-heading: 'Balthazar', serif;
+  --font-body: 'Roboto', sans-serif;
+  --font-accent: 'Cinzel', serif;
+  
+  /* Spacing Scale */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  
+  /* Animation */
+  --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 200ms;
+  --duration-base: 300ms;
+  --duration-slow: 500ms;
+  
+  /* Glassmorphism */
+  --glass-blur: 20px;
+  --glass-saturation: 180%;
+  --glass-opacity: 0.05;
+  
+  /* Z-Index Layers */
+  --z-background: -1;
+  --z-content: 10;
+  --z-card: 20;
+  --z-overlay: 30;
+  --z-modal: 40;
+  --z-notification: 50;
+}
