@@ -1,0 +1,12 @@
+[phases.setup]
+nixPkgs = ["rust", "nodejs", "pkg-config", "openssl"]
+
+[phases.build]
+cmds = [
+    "cd core && cargo build --release --target wasm32-unknown-unknown",
+    "cd ../frontend && npm install && npm run build",
+    "cd ../backend && cargo build --release"
+]
+
+[start]
+cmd = "./backend/target/release/table1837-backend"

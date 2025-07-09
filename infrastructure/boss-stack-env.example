@@ -1,0 +1,34 @@
+# BOSS STACK ENVIRONMENT VARIABLES
+
+# Neon.tech PostgreSQL (10GB FREE)
+NEON_DATABASE_URL=postgresql://user:pass@ep-xxx.us-east-1.aws.neon.tech/table1837
+
+# Cloudflare
+CLOUDFLARE_ACCOUNT_ID=your-account-id
+CLOUDFLARE_API_TOKEN=your-api-token
+R2_ACCESS_KEY_ID=your-r2-key
+R2_SECRET_ACCESS_KEY=your-r2-secret
+
+# Clerk.dev Authentication (SUPERIOR to Supabase Auth)
+CLERK_PUBLISHABLE_KEY=pk_live_xxx
+CLERK_SECRET_KEY=sk_live_xxx
+
+# Pusher/Ably for WebSockets
+PUSHER_APP_ID=xxx
+PUSHER_KEY=xxx
+PUSHER_SECRET=xxx
+PUSHER_CLUSTER=us2
+
+# Deta
+DETA_PROJECT_KEY=xxx
+
+# Railway Redis
+REDIS_URL=redis://default:xxx@xxx.railway.app:6379
+
+# AI Services (carry over)
+GOOGLE_API_KEY=your-gemini-key
+OPENAI_API_KEY=your-openai-key
+
+# Image CDN
+CLOUDFLARE_IMAGES_ACCOUNT_ID=xxx
+CLOUDFLARE_IMAGES_KEY=xxx

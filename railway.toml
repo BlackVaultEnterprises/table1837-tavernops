@@ -1,0 +1,22 @@
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "cd backend && cargo run --release"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+[[services]]
+name = "backend"
+type = "web"
+
+[[services]]
+name = "frontend"
+type = "web"
+buildCommand = "cd frontend && npm install && npm run build"
+startCommand = "cd frontend && npx serve dist -l $PORT"
+
+[environments.production]
+RUST_LOG = "info"
+DATABASE_URL = "${{ RAILWAY_POSTGRESQL_URL }}"
+REDIS_URL = "${{ RAILWAY_REDIS_URL }}"
